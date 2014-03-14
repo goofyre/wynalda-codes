@@ -1,0 +1,3 @@
+program = "wynalda-codes.psl"
+merge = "wynalda-codes.csn"
+path = "resources;data;libraries"
