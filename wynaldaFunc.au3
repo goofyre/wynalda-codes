@@ -7,6 +7,10 @@ Func getFileNameWithExtension($file)
 EndFunc
 
 Func isValidValue($value, $limit)
+	if ( $limit = "" ) Then
+		$limit = 99999999999
+	EndIf
+
 	if ( $value < 0 OR $value > $limit ) then
 		return False
 	EndIf
@@ -14,7 +18,6 @@ Func isValidValue($value, $limit)
 EndFunc
 
 Func writeCodesToInkjetFile($inputFile, $inkjetFile, $firstCode, $lastCode, $breakPoint)
-
 	For $index = $firstCode to $lastCode Step 1
 		FileWriteLine($inkjetFile, FileReadLine($inputFile, $index))
 		if (mod( $index, $breakpoint ) = 0 ) then
@@ -24,21 +27,23 @@ Func writeCodesToInkjetFile($inputFile, $inkjetFile, $firstCode, $lastCode, $bre
 		EndIf
 
 	next
-
 EndFunc
 
 Func jobNumberExistsIn($JobNumber, $Folder)
-	$path = $Folder & "\" & $JobNumber & ".1up"
+	$path = $Folder & "\" & StringRight($JobNumber,5) & ".1up"
 	Return FileExists( $path )
 EndFunc
 
-Func promptForValue( $prompt, $default, $max, $reprompt)
+Func promptForValue( $prompt, $default, $max, $reprompt, $validationFunction = "isValidValue", $validationValue = 1)
 		Do
 			$value = InputBox("Wynalda Codes", $prompt, $default)
 			if (@error = 1) then
 				Exit
 			EndIf
-		Until isValidValue($value, $max)
+			$prompt = $reprompt
+			$isValid = Call($validationFunction, $value, $max)
+			ConsoleWrite($isvalid & @CRLF)
+		Until $isValid = $validationValue
 
 		return $value
 EndFunc

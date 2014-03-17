@@ -23,7 +23,7 @@ Func setUp()
 	FileOpen($file,8)
 	Global $inputFile = @TempDir & "\testCodeFile.txt"
 	Global $inkjetFile = @TempDir & "\testInkjetFile.1UP"
-
+	_FileCreate(@TempDir & "\12345.1up")
 EndFunc
 
 ;Teardown test suite
@@ -36,23 +36,28 @@ EndFunc
 ;TestSuite
 Func testSuite()
 	setUp()
-
 		Local $testSuite = _testSuite_("TestResults","html")
 
-		;test
+
 		Local $test = _test_("extract filename and extension from full path")
+
 		$test.step("simple file", $test.assertEquals(getFileNameWithExtension($file),"myfile.txt"))
+
 		$test.addToSuite($testSuite)
 		$test = 0
 
+
 		Local $test = _test_("Is value valid")
+
 		$test.step("provided value zero", $test.assertTrue(isValidValue(0,100)))
 		$test.step("provided value exactly highest possible", $test.assertTrue(isValidValue(100,100)))
 		$test.step("provided value valid value", $test.assertTrue(isValidValue(50,100)))
 		$test.step("provided value negative", $test.assertFalse(isValidValue(-5,100)))
 		$test.step("provided value too big", $test.assertFalse(isValidValue(200,100)))
+
 		$test.addToSuite($testSuite)
 		$test = 0
+
 
 		Local $test = _test_("Two line 1UP file is valid")
 		$firstCode = 1
@@ -70,17 +75,19 @@ Func testSuite()
 		$test.addToSuite($testSuite)
 		$test = 0
 
+
 		Local $test = _test_("Job number check")
 
-		$test.step("inkjet file of job number does not exist", $test.assertfalse(jobNumberExistsIn("12345",@TempDir)))
-		_FileCreate(@TempDir & "\12345.1up")
+		$test.step("inkjet file of job number does not exist", $test.assertfalse(jobNumberExistsIn("12346",@TempDir)))
 		$test.step("inkjet file of job number does exist", $test.asserttrue(jobNumberExistsIn("12345",@TempDir)))
+		$test.step("when job number longer than 5 characters, inkjet file of right 5 characters only", $test.asserttrue(jobNumberExistsIn("012345",@TempDir)))
+		$test.step("when job number longer than 5 characters, inkjet file of right 5 characters only", $test.assertfalse(jobNumberExistsIn("123456",@TempDir)))
+
 		$test.addToSuite($testSuite)
 		$test = 0
+
+
 		$testSuite.stop()
-
-
-
 	tearDown()
 EndFunc
 
