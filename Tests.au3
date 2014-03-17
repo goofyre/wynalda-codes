@@ -21,8 +21,8 @@ testSuite()
 Func setUp()
 	Global $file = @TempDir & "\myfile.txt"
 	FileOpen($file,8)
-	Global $inputFile = "testCodeFile.txt"
-	Global $inkjetFile = "testInkjetFile.1UP"
+	Global $inputFile = @TempDir & "\testCodeFile.txt"
+	Global $inkjetFile = @TempDir & "\testInkjetFile.1UP"
 
 EndFunc
 
@@ -30,6 +30,7 @@ EndFunc
 Func tearDown()
 	FileDelete($file)
 	FileDelete($inkjetFile)
+	FileDelete(@TempDir & "\12345.1up")
 EndFunc
 
 ;TestSuite
@@ -69,7 +70,13 @@ Func testSuite()
 		$test.addToSuite($testSuite)
 		$test = 0
 
+		Local $test = _test_("Job number check")
 
+		$test.step("inkjet file of job number does not exist", $test.assertfalse(jobNumberExistsIn("12345",@TempDir)))
+		_FileCreate(@TempDir & "\12345.1up")
+		$test.step("inkjet file of job number does exist", $test.asserttrue(jobNumberExistsIn("12345",@TempDir)))
+		$test.addToSuite($testSuite)
+		$test = 0
 		$testSuite.stop()
 
 

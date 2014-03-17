@@ -26,3 +26,19 @@ Func writeCodesToInkjetFile($inputFile, $inkjetFile, $firstCode, $lastCode, $bre
 	next
 
 EndFunc
+
+Func jobNumberExistsIn($JobNumber, $Folder)
+	$path = $Folder & "\" & $JobNumber & ".1up"
+	Return FileExists( $path )
+EndFunc
+
+Func promptForValue( $prompt, $default, $max, $reprompt)
+		Do
+			$value = InputBox("Wynalda Codes", $prompt, $default)
+			if (@error = 1) then
+				Exit
+			EndIf
+		Until isValidValue($value, $max)
+
+		return $value
+EndFunc
