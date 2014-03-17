@@ -21,7 +21,7 @@ testSuite()
 Func setUp()
 	Global $file = @TempDir & "\myfile.txt"
 	FileOpen($file,8)
-	Global $inputFile = @TempDir & "\testCodeFile.txt"
+	Global $inputFile = "testdata\testCodeFile.txt"
 	Global $inkjetFile = @TempDir & "\testInkjetFile.1UP"
 	_FileCreate(@TempDir & "\12345.1up")
 EndFunc
