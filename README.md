@@ -8,13 +8,5 @@ Testing Framework
 
 We are using the Micro AutoIt testing framework. 
 
-Synatx example:
-
-  $Local $testSuite = _testSuite_("TestResults","html")
-
-  $Local $test = _test_("extract filename and extension from full path")
-
-	$$test.step("simple file", $test.assertEquals(getFileNameWithExtension($file),"myfile.txt"))
-
-	$$test.addToSuite($testSuite)
-	$$test = 0
+http://htejera.users.sourceforge.net/micro/  
+Unzip lib folder into source directory.
