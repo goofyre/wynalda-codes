@@ -12,7 +12,7 @@
 ;Description:
 ;File test suite
 #include "lib/micro.au3"
-#include "wynalda.au3"
+#include "wynaldaFunc.au3"
 
 ;Run suite
 testSuite()
