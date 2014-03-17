@@ -1,4 +1,5 @@
 #include "file.au3"
+#include "Array.au3"
 
 Func getFileNameWithExtension($file)
 	dim $drive, $dir, $filename, $ext
@@ -18,15 +19,18 @@ Func isValidValue($value, $limit)
 EndFunc
 
 Func writeCodesToInkjetFile($inputFile, $inkjetFile, $firstCode, $lastCode, $breakPoint)
-	For $index = $firstCode to $lastCode Step 1
-		FileWriteLine($inkjetFile, FileReadLine($inputFile, $index))
-		if (mod( $index, $breakpoint ) = 0 ) then
-			FileWriteLine($inkjetFile, "********")
+	local $codes = FileReadToArray($inputFile)
+	dim $fileArray[ ($lastCode * 2) + 1 ]
+	For $counter = 0 to $lastCode - $firstCode Step 1
+		ConsoleWrite( ($counter + $firstCode) & @CRLF)
+		$fileArray[ 2 * $counter ] = $codes[ $counter + $firstCode - 1 ]
+		if (mod( $counter + 1, $breakpoint ) = 0 AND $counter <> 0) then
+			$fileArray[ (2 * $counter + 1) ] = "********"
 		Else
-			FileWriteLine($inkjetFile, "")
+			$fileArray[ (2 * $counter + 1) ] = ""
 		EndIf
-
 	next
+	_FileWriteFromArray($inkjetFile,$fileArray)
 EndFunc
 
 Func jobNumberExistsIn($JobNumber, $Folder)
@@ -42,7 +46,6 @@ Func promptForValue( $prompt, $default, $max, $reprompt, $validationFunction = "
 			EndIf
 			$prompt = $reprompt
 			$isValid = Call($validationFunction, $value, $max)
-			ConsoleWrite($isvalid & @CRLF)
 		Until $isValid = $validationValue
 
 		return $value
