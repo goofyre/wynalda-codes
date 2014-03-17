@@ -7,9 +7,9 @@ dim $path_drive,$path_folder,$path_file,$path_ext
 
 dim $listOfCodes[10000000]
 
-if $CmdLine[0] <> "" then 
+if $CmdLine[0] <> "" then
 	$wynaldaFile = $CmdLine[1] ; If file dragged onto app, use that as code file.
-else 
+else
 	$wynaldaFile = FileOpenDialog("Wynalda Code File","\\kciapp2\data\lists\wynalda\","All (*.*)|CSV or TXT (*.csv;*.txt)") ; prompt user for code file to use
 EndIf
 $continue = false
@@ -17,11 +17,11 @@ $jobnumber = ""
 $prompt = ""
 while Not $continue
 	$jobnumber = InputBox("Job Number",$prompt & "Please enter the Job Number:",$jobnumber) ; Prompt user for total number of codes to place into the 1UP file.
-	if Not FileExists("\\kcimail2\inkjet\" & StringRight($jobnumber,5) & ".1UP") then 
+	if Not FileExists("\\kcimail2\inkjet\" & StringRight($jobnumber,5) & ".1UP") then
 		$continue = True
-	else 
+	else
 		$prompt = "The Job Number entered already exists. " & @CRLF
-	EndIf	
+	EndIf
 WEnd
 
 $outfilepath = "\\kcimail2\inkjet\" & StringRight($jobnumber,5) & ".1UP"
@@ -36,7 +36,7 @@ _ArrayDelete($listOfCodes,0) ; I remove that from the array so that the entire a
 
 $prompt = ""
 $continue = false
-While Not $continue	
+While Not $continue
 	$toPrint = InputBox("How Many to print?",$prompt & "How many of the " & $totalcodes & " would you like to put in the file?",$totalcodes - 2500) ; Prompt user for total number of codes to place into the 1UP file.
 	$toPrint = int($toPrint) ; convert toPrint from String to Integer.
 	if $toPrint > $totalcodes Then
@@ -52,7 +52,7 @@ wend
 
 $prompt = ""
 $continue = false
-While Not $continue	
+While Not $continue
 	$toSpoil = InputBox("How Many for Spoilage?",$prompt & "How many of the " & ($totalcodes - $toPrint) & " remaining codes, would you like to put in the spoilage file?",2500) ; Prompt user for total number of codes to place into the 1UP file.
 	$toSpoil = int($toSpoil) ; convert toSpoil from String to Integer.
 	if ($toSpoil + $toPrint) > $totalcodes Then
@@ -70,7 +70,7 @@ $counter = 0 ; initialize a counter
 
 $prompt = ""
 $continue = false
-While Not $continue	
+While Not $continue
 	$breakcount = InputBox("When to Break?","How many lines betweeen breaks?",8000) ; Prompt user to define the number at which to write the break
 	$breakcount = int($breakcount) ; convert toPrint from String to Integer.
 	if $breakcount <= 0 Then

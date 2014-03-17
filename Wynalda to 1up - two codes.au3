@@ -4,7 +4,7 @@
 
 
 dim $path_drive1,$path_folder1,$path_file1,$path_ext1
-dim $path_drive2,$path_folder2,$path_file2,$path_ext2 
+dim $path_drive2,$path_folder2,$path_file2,$path_ext2
 
 dim $listOfCodes1[10000000]
 dim $listOfCodes2[10000000]
@@ -18,11 +18,11 @@ $jobnumber = ""
 $prompt = ""
 while Not $continue
 	$jobnumber = InputBox("Job Number",$prompt & "Please enter the Job Number:",$jobnumber) ; Prompt user for total number of codes to place into the 1UP file.
-	if Not FileExists("\\kcimail2\inkjet\" & StringRight($jobnumber,5) & ".1UP") then 
+	if Not FileExists("\\kcimail2\inkjet\" & StringRight($jobnumber,5) & ".1UP") then
 		$continue = True
-	else 
+	else
 		$prompt = "The Job Number entered already exists. " & @CRLF
-	EndIf	
+	EndIf
 WEnd
 
 $outfilepath = "\\kcimail2\inkjet\" & StringRight($jobnumber,5) & ".1UP"
@@ -43,7 +43,7 @@ ConsoleWrite("File 1 : " & $totalcodes1 & @CRLF & "File 2 : " & $totalcodes2 & @
 
 $prompt = ""
 $continue = false
-While Not $continue	
+While Not $continue
 	$toPrint = InputBox("How Many to print?",$prompt & "How many of the " & $totalcodes1 & " would you like to put in the file?",$totalcodes1 - 2500) ; Prompt user for total number of codes to place into the 1UP file.
 	$toPrint = int($toPrint) ; convert toPrint from String to Integer.
 	if $toPrint > $totalcodes1 Then
@@ -59,7 +59,7 @@ wend
 
 $prompt = ""
 $continue = false
-While Not $continue	
+While Not $continue
 	$toSpoil = InputBox("How Many for Spoilage?",$prompt & "How many of the " & ($totalcodes1 - $toPrint) & " remaining codes, would you like to put in the spoilage file?",2500) ; Prompt user for total number of codes to place into the 1UP file.
 	$toSpoil = int($toSpoil) ; convert toSpoil from String to Integer.
 	if ($toSpoil + $toPrint) > $totalcodes1 Then
@@ -75,7 +75,7 @@ wend
 
 $prompt = ""
 $continue = false
-While Not $continue	
+While Not $continue
 	$breakcount = InputBox("When to Break?","How many lines betweeen breaks?",8000) ; Prompt user to define the number at which to write the break
 	$breakcount = int($breakcount) ; convert toPrint from String to Integer.
 	if $breakcount <= 0 Then
@@ -94,7 +94,7 @@ for $i = 0 to ($toPrint - 1) Step 1 ; for ... in ... next loop, for each $code i
 	$code2 = $listOfCodes2[$i]
 	FileWriteLine($outfile,$code1) ; write the current $code to the 1UP file
 	FileWriteLine($outfile,$code2) ; write the current $code to the 1UP file
-	
+
 	$Otherline = "" ; define the second line variable to an empty string
 
 	if mod($i,$breakcount) = $breakcount-1 Then ;if the counter is a multiple of $breakcount then $otherline=$breakstring
